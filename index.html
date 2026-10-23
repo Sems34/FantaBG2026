@@ -116,14 +116,14 @@
 <body>
 <div class="tv">
   <header class="topbar">
-    <div class="brand">▌ FANTABASKET</div>
+    <div class="brand">▌FANTABASKET</div>
     <div class="clock" id="clock">BGBigReunion · EDIZIONE 2026/27</div>
   </header>
   <div class="subbar">
     <span>SPORT · FANTASY BASKET</span>
     <span id="current-label">ULTIMO AGGIORNAMENTO: GARA 1</span>
   </div>
-  <nav aria-label="Pagine Televideo">
+  <nav aria-label="Pagine FantaBG">
     <button class="active" data-page="201">201 Risultati</button>
     <button data-page="202">202 Classifica</button>
     <button data-page="203">203 In evidenza</button>
@@ -133,6 +133,7 @@
   <main id="content" aria-live="polite"></main>
   <div class="ticker" id="ticker">RISULTATI FANTASY · CLASSIFICA · STATISTICHE — BGBIGREUNION</div>
   <footer class="footer">
+    <span> FANTABG · PAGINE 201–205</span>
   </footer>
 </div>
 <script>
@@ -213,13 +214,13 @@ function renderResults() {
   }).join("");
   return pageHeader("RISULTATI DELLA LEGA", "201") +
     `<p class="notice">Giornata fantasy 1 · 7 incontri conclusi. La squadra evidenziata in verde è la vincitrice.</p>
-     <div style="overflow-x:auto"><table><thead><tr><th>G.</th><th>Trasferta</th><th class="num">Punti</th><th class="num">Punti</th><th>Casa</th></tr></thead><tbody>${rows}</tbody></table></div>
+     <div style="overflow-x:auto"><table><thead><tr><th>G.</th><th>Trasferta</th><th class="num">Punti</th><th class="num">Punti</th><th>Casa</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 function renderStandings() {
   const standings = buildStandings();
   const rows = standings.map((t,i) => `<tr><td>${String(i+1).padStart(2,"0")}</td><td>${esc(t.name)}</td><td class="num">${t.w}-${t.l}</td><td class="num">${fmt(t.pf)}</td><td class="num">${fmt(t.pa)}</td><td class="num ${t.diff>=0?'green':'red'}">${t.diff>0?'+':''}${fmt(t.diff)}</td><td class="num">${t.streak}</td></tr>`).join("");
   return pageHeader("CLASSIFICA GENERALE", "202") +
-     <div style="overflow-x:auto"><table><thead><tr><th>#</th><th>Squadra</th><th class="num">V-P</th><th class="num">PF</th><th class="num">PS</th><th class="num">Diff.</th><th class="num">Serie</th></tr></thead><tbody>${rows}</tbody></table></div>
+    `<div style="overflow-x:auto"><table><thead><tr><th>#</th><th>Squadra</th><th class="num">V-P</th><th class="num">PF</th><th class="num">PS</th><th class="num">Diff.</th><th class="num">Serie</th></tr></thead><tbody>${rows}</tbody></table></div>
      <p class="notice">PF = punti fatti · PS = punti subiti · Diff. = PF − PS · V-P = vittorie-sconfitte.</p>`;
 }
 function renderHighlights() {
@@ -252,17 +253,14 @@ function renderRecords() {
       <div class="record-row"><span>Vittoria più larga</span><span>+${fmt(margin.diff)} · ${esc(margin.winner)}</span></div>
       <div class="record-row"><span>Incontro più equilibrato</span><span>+${fmt(close.diff)} · ${esc(close.matchup)}</span></div>
       <div class="record-row"><span>Partite registrate</span><span>${results.length}</span></div>
-    </div>
+    </div>`;
 }
 function renderSchedule() {
   const rows = upcoming.map(g=>`<tr><td>G${g.week}</td><td>${esc(g.away)}</td><td class="num cyan">VS</td><td>${esc(g.home)}</td><td class="num"><span class="tag">IN PROGRAMMA</span></td></tr>`).join("");
   return pageHeader("PROSSIMI INCONTRI", "205") +
-    `<p class="notice">Giornata 2</p>
-     <div style="overflow-x:auto"><table><thead><tr><th>G.</th><th>Trasferta</th><th></th><th>Casa</th><th class="num">Stato</th></tr></thead><tbody>${rows}</tbody></table></div>` ;
+    `<p class="notice">Giornata 2 · calendario fantasy previsto.</p>
+     <div style="overflow-x:auto"><table><thead><tr><th>G.</th><th>Trasferta</th><th></th><th>Casa</th><th class="num">Stato</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
-/*COME AGGIORNARE sopra
-Quando una partita termina, aggiungi il risultato nell'array results e rimuovi il matchup concluso da upcoming. La classifica, i record e le pagine statistiche vengono ricalcolati automaticamente all'apertura del file.*/
-  
 const pages = {"201":renderResults,"202":renderStandings,"203":renderHighlights,"204":renderRecords,"205":renderSchedule};
 function showPage(page) {
   document.getElementById("content").innerHTML = pages[page]();
